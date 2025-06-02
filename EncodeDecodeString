@@ -1,0 +1,14 @@
+public class Codec {
+
+public String encode(List<String> strs) {
+    return strs.stream()
+               .map(s -> s.replace("#", "##") + " # ")
+               .collect(Collectors.joining());
+}
+
+public List<String> decode(String s) {
+    List strs = Stream.of(s.split(" # ", -1))
+                       .collect(Collectors.toList());
+    strs.remove(strs.size() - 1);
+    return strs;
+}}E
