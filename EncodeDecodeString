@@ -1,14 +1,22 @@
 public class Codec {
 
-public String encode(List<String> strs) {
-    return strs.stream()
-               .map(s -> s.replace("#", "##") + " # ")
-               .collect(Collectors.joining());
-}
+    public String encode(List<String> strs) {
+        StringBuilder sb = new StringBuilder();
+        for (String s : strs) {
+            sb.append(s.length()).append("/.").append(s);
+        }
+        return sb.toString();
+    }
 
-public List<String> decode(String s) {
-    List strs = Stream.of(s.split(" # ", -1))
-                       .collect(Collectors.toList());
-    strs.remove(strs.size() - 1);
-    return strs;
-}}E
+    // Decodes a single string to a list of strings.
+    public List<String> decode(String s) {
+        List<String> res = new ArrayList<>();
+        int n = s.length(), i = 0;
+        while (i < n) {
+            int de = s.indexOf("/.", i);
+            int len = Integer.parseInt(s.substring(i, de));
+            res.add(s.substring(de + 2, de + 2 + len));
+            i = de + 2 + len;
+        }
+        return res;
+    }}
