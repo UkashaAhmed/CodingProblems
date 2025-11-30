@@ -11,3 +11,13 @@ class Solution {
         return true;
     }
 }
+“To check if a string is a valid palindrome, I use a two-pointer approach.
+I set one pointer at the start (left) and one at the end (right).
+While left < right, I skip any characters that are not letters or digits.
+Then I compare the lowercase versions of s[left] and s[right].
+If they’re not equal, I return false.
+If they match, I move the left pointer forward and the right pointer backward.
+If the loop finishes without finding a mismatch, the string is a palindrome.”
+
+📌 Time Complexity: O(n)
+📌 Space Complexity: O(1)
