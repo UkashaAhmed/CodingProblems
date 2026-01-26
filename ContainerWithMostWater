@@ -1,0 +1,16 @@
+class Solution {
+    public int maxArea(int[] h) {
+        int left=0,right=h.length-1,max=0,vol=0;
+        while(left<=right){
+            if(h[left]<=h[right]){
+                vol=(right-left)*h[left];
+                left++;
+            }
+            else{
+                 vol=(right-left)*h[right];
+                 right--;
+            }
+            if(vol>max) max=vol;
+        }return max;
+    }
+}
