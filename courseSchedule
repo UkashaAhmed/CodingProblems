@@ -1,0 +1,39 @@
+import java.util.*;
+
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        // Build graph: b -> a (to take a, you must first take b)
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) graph.add(new ArrayList<>());
+
+        int[] indegree = new int[numCourses];
+
+        for (int[] pre : prerequisites) {
+            int a = pre[0];
+            int b = pre[1];
+            graph.get(b).add(a);
+            indegree[a]++;
+        }
+
+        // Start with all courses that have no prerequisites
+        Deque<Integer> q = new ArrayDeque<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) q.add(i);
+        }
+
+        int taken = 0;
+
+        while (!q.isEmpty()) {
+            int course = q.poll();
+            taken++;
+
+            for (int next : graph.get(course)) {
+                indegree[next]--;
+                if (indegree[next] == 0) q.add(next);
+            }
+        }
+
+        // If we took all courses, there's no cycle
+        return taken == numCourses;
+    }
+}
