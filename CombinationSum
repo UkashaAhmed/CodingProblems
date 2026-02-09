@@ -1,0 +1,27 @@
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        Arrays.sort(candidates);                 // enables pruning
+        List<List<Integer>> ans = new ArrayList<>();
+        dfs(candidates, 0, target, new ArrayList<>(), ans);
+        return ans;
+    }
+
+    private void dfs(int[] candidates, int start, int target,
+                     List<Integer> path, List<List<Integer>> ans) {
+        if (target == 0) {                       // found a valid combo
+            ans.add(new ArrayList<>(path));
+            return;
+        }
+
+        for (int i = start; i < candidates.length; i++) {
+            int x = candidates[i];
+            if (x > target) break;               // prune (sorted)
+
+            path.add(x);
+            dfs(candidates, i, target - x, path, ans); // i => reuse allowed
+            path.remove(path.size() - 1);        // backtrack
+        }
+    }
+}
