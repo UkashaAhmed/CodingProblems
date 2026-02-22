@@ -1,0 +1,40 @@
+class Solution {
+    public int minDistance(String word1, String word2) {
+        final int m = word1.length(); // When a variable is declared as final, its value cannot be changed once it has been assigned.
+        final int n = word2.length();
+
+        int[][]  value_at_dp = new int[m + 1][n + 1];
+
+    if(word1.length() == 0 && word2.length() >= 1) return word2.length();
+        // initialize dp matrix
+        for (int i = 1; i <= m; i++) 
+        {
+            value_at_dp[i][0] = i;
+            for (int j = 1; j <= n; j++) 
+            {
+                value_at_dp[0][j] = j;
+            }
+        }
+        for(int i = 1; i <= m; i++)
+        {
+            for(int j = 1; j <= n; j++)
+            {
+                if(word1.charAt(i - 1) == word2.charAt(j - 1))  // if string values are equal till any current iteration , just equal the value of current dp array to its immediate diagonal.
+                {
+                    value_at_dp[i][j] = value_at_dp[i - 1][j - 1];  
+                }
+                else
+                {
+                    int immediate_at_dia = value_at_dp[i - 1][j - 1]; 
+                    int top = value_at_dp[i - 1][j];
+                    int left = value_at_dp[i][j - 1];
+                    value_at_dp[i][j] = Math.min(immediate_at_dia, Math.min(top, left)) + 1;
+                }
+            }
+        }
+        return value_at_dp[m][n];
+    }
+}
+
+// T(M, N) = O(M * N)
+// S(M, N) = O(M * N)
